@@ -1,5 +1,5 @@
 ---
-  - name: Deploy API
+  - name: Deploy Webapp
     hosts: all
     remote_user: deploy
     vars:
@@ -8,7 +8,7 @@
 
     roles:
       - enable_maintenance
-      - init
+        - init
       - pm2
       - stop_app
       - deploy

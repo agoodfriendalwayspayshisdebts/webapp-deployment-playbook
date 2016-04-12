@@ -1,0 +1,4 @@
+---
+  - name: Set available
+    command: mv /home/{{user}}/site/maintenance.html /home/{{user}}/site/maintenance_disabled.html
+...

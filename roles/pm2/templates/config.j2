@@ -1,0 +1,15 @@
+{
+  "apps": [{
+    "script": "bin/server_run.sh",
+    "cwd": "/home/{{user}}/{{app}}",
+    "name": "{{app}}",
+    "interpreter": "/bin/bash",
+    "watch": true,
+    "env": {{app_environment | mandatory | replace('\'', '"') | replace('u"', '"')}},
+    "log_date_format": "YYYY-MM-DD HH:mm:ss Z",
+    "error_file": "/home/{{user}}/err.log",
+    "out_file": "/home/{{user}}/out.log",
+    "max_restarts": 3,
+    "autorestart": true
+  }]
+}

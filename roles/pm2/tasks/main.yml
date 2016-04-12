@@ -1,0 +1,12 @@
+---
+  - name: Install pm2 globally
+    become: yes
+    npm:
+      name: pm2
+      global: yes
+
+  - name: App config
+    template:
+      src=templates/config.j2
+      dest=/home/{{user}}/{{app}}_process.json
+...

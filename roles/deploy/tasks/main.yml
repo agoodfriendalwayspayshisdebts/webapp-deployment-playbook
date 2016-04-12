@@ -1,0 +1,65 @@
+---
+  - name: Delete former backup
+    file:
+      path=/home/{{user}}/{{app}}_backup
+      state=absent
+
+  - name: Stat app directory
+    stat: path=/home/{{user}}/{{app}}
+    register: folder_stat
+
+  - name: Backup current app if any
+    command: mv /home/{{user}}/{{app}} /home/{{user}}/{{app}}_backup
+    when: folder_stat.stat.exists
+
+  - name: Make sure directory does not exist
+    file:
+      path=/home/{{user}}/{{app}}
+      state=absent
+
+  - name: Install git
+    become: yes
+    apt:
+      name=git
+      state=latest
+
+  - name: Fetch version
+    git:
+      repo={{repo}}
+      depth=1
+      refspec='master:{{version}}'
+      dest=/home/{{user}}/{{app}}
+
+  - name: Install npm packages
+    npm:
+      path=/home/{{user}}/{{app}}/node_modules
+      ignore_scripts=yes
+      production=no
+
+  - name: Install global packages
+    become: yes
+    npm:
+      name=grunt
+      global=yes
+
+  - name: Install bower packages
+    command: ./node_modules/.bin/bower install --allow-root
+    args:
+      chdir: /home/{{user}}/{{app}}
+
+  - name: Build app
+    command: grunt buildApp --prod=true
+    args:
+      chdir: /home/{{user}}/{{app}}
+
+  - name: Delete node_modules
+    file:
+      path=/home/{{user}}/{{app}}/node_modules
+      state=absent
+
+  - name: Install npm production packages
+    npm:
+      path=/home/{{user}}/{{app}}/node_modules
+      ignore_scripts=yes
+      production=yes
+...

@@ -1,0 +1,14 @@
+---
+  - name: Create site directory
+    file:
+      path=/home/{{user}}/site
+      state=directory
+
+  - name: Create maintenance HTML file
+    template:
+      src=templates/maintenance.j2
+      dest=/home/{{user}}/site/maintenance_disabled.html
+
+  - name: Set unavailable
+    command: mv /home/{{user}}/site/maintenance_disabled.html /home/{{user}}/site/maintenance.html
+...

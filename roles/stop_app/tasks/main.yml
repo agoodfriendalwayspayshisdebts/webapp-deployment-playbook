@@ -1,0 +1,4 @@
+---
+  - name: Stop app
+    command: pm2 stop {{app}}_process.json
+...

@@ -1,0 +1,17 @@
+---
+  - name: Deploy API
+    hosts: all
+    remote_user: deploy
+    vars:
+      app: debts-app
+      repo: https://github.com/agoodfriendalwayspayshisdebts/agoodfriendalwayspayshisdebts-webapp.git
+
+    roles:
+      - enable_maintenance
+      - init
+      - pm2
+      - stop_app
+      - deploy
+      - restart_app
+      - disable_maintenance
+...

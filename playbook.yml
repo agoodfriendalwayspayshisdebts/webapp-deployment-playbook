@@ -8,7 +8,7 @@
 
     roles:
       - enable_maintenance
-        - init
+      - init
       - pm2
       - stop_app
       - deploy
